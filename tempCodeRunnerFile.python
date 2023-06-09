@@ -1,0 +1,43 @@
+'''NEWTON RAPHSON LOAD FLOW ANALYSIS IS IMPLIMENTED FOE A TWO BUS SYSTEM
+The first bus is a slack bus and we need to find the V2 and delta 2 for the other
+bus. the line impedance is j0.05 and the load power is 1+0.05pu'''
+import sympy as sy
+print ('NEWTON RAPHSON LOAD FLOW FOR TWO BUS SYSTEM')
+# CREAtING THE Y BUS MATRIX#
+Y11=20.0
+Y12=20.0
+Y21=20.0
+Y22=20.0
+t11=-3.1459/2
+t12=3.1459/2
+t21=3.1459/2
+t22=-3.1459/2
+#defining known states#
+v1=1.0
+d1=0.0
+p2=-1.0
+q2=-0.05
+#loop#
+x=0
+for x in range(7):
+    v2,d2=sy.symbols('v2,d2')
+    fP2=Y21*v1*v2*sy.cos(t21+d1-d2)-p2
+    fQ2=-Y21*v1*v2*sy.sin(t21+d1-d2)+Y22*(v2^2)-q2
+    f=sy.Matrix([fP2,fP2],[fQ2,fQ2])
+    J=f.jacobian([v2,d2])
+    X=X-(J^-1)*([fP2],[fQ2])
+    v2=X[1]
+    d2=X[2]
+print (X)
+
+
+
+                
+    
+
+
+
+
+
+
+
